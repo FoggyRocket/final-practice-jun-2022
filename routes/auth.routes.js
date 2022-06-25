@@ -63,11 +63,16 @@ router.post("/signup", isLoggedOut, (req, res) => {
         return User.create({
           email,
           password: hashedPassword,
-        });
+      });
       })
       .then((user) => {
+
+        //borrar el password u otro elemento convirtiendo el BSON a objeto
+        let userWithoutPass = user.toObject()
+        delete userWithoutPass.password
+
         // Bind the user to the session object
-        req.session.user = user;
+        req.session.user = userWithoutPass;
         res.redirect("/");
       })
       .catch((error) => {
@@ -127,7 +132,11 @@ router.post("/login", isLoggedOut, (req, res, next) => {
             errorMessage: "Wrong credentials.",
           });
         }
-        req.session.user = user;
+        let userWithoutPass = user.toObject()
+        delete userWithoutPass.password
+
+        // Bind the user to the session object
+        req.session.user = userWithoutPass;
         // req.session.user = user._id; // ! better and safer but in this case we saving the entire user object
         return res.redirect("/");
       });

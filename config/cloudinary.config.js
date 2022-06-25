@@ -17,7 +17,7 @@ const storage = new CloudinaryStorage({
     cloudinary,
     params:{
         folder:"edit-user-project",
-        allowed_formats:['jpg',"png","gif","svg"],
+        allowed_formats:['jpg',"png","gif","svg","jpeg","webp"],
         
     }
 })
